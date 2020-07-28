@@ -23,8 +23,8 @@ namespace GrpcService
 
                 await dbContext.Samurais.AddRangeAsync(Generator.NewSamurais().Take(10000));
             }
-            
-            dbContext.SaveChanges();
+
+            await dbContext.SaveChangesAsync();
         }
     }
 }
