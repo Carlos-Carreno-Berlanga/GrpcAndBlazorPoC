@@ -18,11 +18,15 @@ namespace GrpcService
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         const string allowAll = "AllowAll";
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHostedService<DatabaseSeedingService>();
             services.AddGrpc();
             services.AddCors(o => o.AddPolicy(allowAll, builder =>
             {
@@ -33,8 +37,11 @@ namespace GrpcService
             }));
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             services.AddDbContext<SamuraiContext>(opt =>
-                opt.UseNpgsql("Server=dumbo.db.elephantsql.com;Host=dumbo.db.elephantsql.com;Port=5432;Database=yjxqwxti;User Id=yjxqwxti;Password=J1elZY-BRcwHCxOaIrD92upOcjHuG6PQ;", sql => sql.MigrationsAssembly(migrationsAssembly))
+                opt.UseNpgsql(Configuration.GetConnectionString("SamuraiConnex"),
+                sql => sql.MigrationsAssembly(migrationsAssembly).SetPostgresVersion(new Version(9, 6))
+                )
               .EnableSensitiveDataLogging()
+
              );
         }
 
