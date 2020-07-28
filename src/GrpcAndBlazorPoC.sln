@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcService", "GrpcService\GrpcService\GrpcService.csproj", "{DA345F56-3395-480D-8DD1-87764121C8DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorClient", "BlazorClient\BlazorClient.csproj", "{D2E8DCAA-C4F4-40EE-B2B0-F820F74C638F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA345F56-3395-480D-8DD1-87764121C8DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA345F56-3395-480D-8DD1-87764121C8DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA345F56-3395-480D-8DD1-87764121C8DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA345F56-3395-480D-8DD1-87764121C8DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2E8DCAA-C4F4-40EE-B2B0-F820F74C638F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2E8DCAA-C4F4-40EE-B2B0-F820F74C638F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2E8DCAA-C4F4-40EE-B2B0-F820F74C638F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2E8DCAA-C4F4-40EE-B2B0-F820F74C638F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9343CCE-1031-4626-8BC2-DE1D5423359A}
+	EndGlobalSection
+EndGlobal
