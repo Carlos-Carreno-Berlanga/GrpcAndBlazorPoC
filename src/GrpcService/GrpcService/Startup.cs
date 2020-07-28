@@ -59,7 +59,7 @@ namespace GrpcService
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>()
+                endpoints.MapGrpcService<SamuraiService>()
                     .RequireCors(allowAll)
                     .EnableGrpcWeb();
 

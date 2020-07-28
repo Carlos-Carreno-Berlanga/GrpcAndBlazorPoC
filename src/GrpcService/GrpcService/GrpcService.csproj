@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+    <None Remove="Protos\samurai.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +25,10 @@
     <ProjectReference Include="..\..\DataGenerator\DataGenerator.csproj" />
     <ProjectReference Include="..\..\Data\Data.csproj" />
     <ProjectReference Include="..\..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\samurai.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,17 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+option csharp_namespace = "GrpcService";
+
+package samurai;
+
+// The greeting service definition.
+service Samurai {
+  // Sends a greeting
+  rpc GetSamurais (google.protobuf.Empty) returns (stream SamuraiReply);
+}
+
+
+// The response message containing the greetings.
+message SamuraiReply {
+  string samuraiName = 1;
+}
