@@ -26,7 +26,6 @@ namespace GrpcService
 
                 await DatabaseInitializer.InitializeAsync(dbContext);
             }
-            //return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
