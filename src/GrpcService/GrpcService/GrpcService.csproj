@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\samurai.proto" />
+    <None Remove="Protos\samuraiPackage.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\samurai.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\samuraiPackage.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

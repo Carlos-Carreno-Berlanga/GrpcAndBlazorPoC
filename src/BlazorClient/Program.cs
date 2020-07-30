@@ -1,5 +1,6 @@
 using Grpc.Net.Client;
 using Grpc.Net.Client.Web;
+using GrpcService;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +28,7 @@ namespace BlazorClient
                     HttpHandler = new GrpcWebHandler(GrpcWebMode.GrpcWeb, new HttpClientHandler())
                 });
 
-                var client = new Greeter.GreeterClient(channel);
+                var client = new SamuraiPackage.SamuraiPackageClient(channel);
                 return client;
             });
 
