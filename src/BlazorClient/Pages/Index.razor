@@ -1,7 +1,87 @@
 ﻿@page "/"
+@using Google.Protobuf.WellKnownTypes
+@using System.Threading;
+@using Grpc.Core;
+@using System;
+@using Microsoft.Extensions.Logging;
+@inject SamuraiPackage.SamuraiPackageClient Client
+@inject ILogger<Index> logger;
 
-<h1>Hello, world!</h1>
+<h1>Classes</h1>
 
-Welcome to your new app.
+@if (responseList.Count == 0)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in responseList)
+            {
+                <tr>
+                    <td><a href="/class/@item.Id">@item.Name</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+
+
+    AsyncServerStreamingCall<SamuraiReply> call;
+    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+    List<SamuraiReply> responseList = new List<SamuraiReply>();
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            
+            logger.LogInformation("HOLA");
+            call = this.Client.GetSamurais(new Empty());
+
+        }
+        catch (Exception e)
+        {
+            logger.LogInformation("aaaaa" + e.Message);
+        }
+        StateHasChanged();
+    }
+
+    //protected override async Task OnInitializedAsync()
+    //{
+
+    //}
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+
+        try
+        {
+            logger.LogInformation($"OnAfterRenderAsync {DateTime.Now}");
+
+            if (await call.ResponseStream.MoveNext(cancellationTokenSource.Token))
+            {
+                await Task.Delay(100);
+                responseList.Add(call.ResponseStream.Current);
+                StateHasChanged();
+            }
+
+        }
+        catch (Exception Ex)
+        {
+            logger.LogInformation("ffff" + Ex.Message);
+        }
+
+
+    }
+
+
+}

@@ -1,14 +1,15 @@
 syntax = "proto3";
 import "google/protobuf/empty.proto";
-
 option csharp_namespace = "BlazorClient";
 
+package SamuraiPackage;
 
 service SamuraiPackage {
   rpc GetSamurais (google.protobuf.Empty) returns (stream SamuraiReply);
 }
 
 
+ 
 
 message SamuraiReply{
 	string id = 1;
