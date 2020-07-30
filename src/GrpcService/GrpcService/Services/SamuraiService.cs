@@ -6,6 +6,7 @@ using Data;
 using Domain;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace GrpcService
@@ -25,13 +26,15 @@ namespace GrpcService
         public override async Task GetSamurais(Empty request, IServerStreamWriter<SamuraiReply> responseStream, ServerCallContext context)
         {
             //return base.GetSamurais(request, responseStream, context);
-
-            for (int i = 0; i < 1000; i++)
-            {
+            var samurais = await _context.Samurais.Take(1000).ToListAsync();
+            foreach (var samurai in samurais)
                 //await Task.Delay(5000);
-                await responseStream.WriteAsync(new SamuraiReply { Id = Guid.NewGuid().ToString(), Name = $"Item-{i}" });
-            }
+                await responseStream.WriteAsync(new SamuraiReply
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = samurai.Name
+                });
         }
-
     }
 }
+
