@@ -18,7 +18,7 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Name</th>
+                <th>Name-- @responseList?.Count</th>
             </tr>
         </thead>
         <tbody>
@@ -47,7 +47,6 @@ else
     {
         try
         {
-
             logger.LogInformation("HOLA");
             call = this.Client.GetSamurais(new Empty());
             responseList = new List<SamuraiReply>(10000);
@@ -78,7 +77,6 @@ else
 
                 responseList.Add(call.ResponseStream.Current);
                 numElements++;
-
 
             }
             if (numElements < maxElements)
