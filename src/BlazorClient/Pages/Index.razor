@@ -9,7 +9,7 @@
 
 <h1>Classes</h1>
 
-@if (responseList.Count == 0)
+@if (responseList == null || responseList.Count == 0)
 {
     <p><em>Cargando...</em></p>
 }
@@ -22,11 +22,15 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in responseList)
+            @if (responseList != null)
             {
-                <tr>
-                    <td><a href="/class/@item.Id">@item.Name</a></td>
-                </tr>
+                for (int i = 0; i < responseList.Count; i++)
+                    if (@responseList[i] != null)
+                    {
+                        <tr>
+                            <td><a href="/class/@responseList[i].Id">@responseList[i].Name -- @i</a></td>
+                        </tr>
+                    }
             }
         </tbody>
     </table>
@@ -37,49 +41,67 @@ else
 
     AsyncServerStreamingCall<SamuraiReply> call;
     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-    List<SamuraiReply> responseList = new List<SamuraiReply>();
+    List<SamuraiReply> responseList = null;
 
     protected override void OnInitialized()
     {
         try
         {
-            
+
             logger.LogInformation("HOLA");
             call = this.Client.GetSamurais(new Empty());
+            responseList = new List<SamuraiReply>(10000);
 
         }
         catch (Exception e)
         {
             logger.LogInformation("aaaaa" + e.Message);
         }
-        StateHasChanged();
     }
 
-    //protected override async Task OnInitializedAsync()
-    //{
-
-    //}
-
+    int maxElements = 1000;
+    int lastResponseListCounter = 0;
+    bool shouldUpdate = true;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
 
         try
         {
-            logger.LogInformation($"OnAfterRenderAsync {DateTime.Now}");
+            lastResponseListCounter = responseList.Count;
+            logger.LogInformation($" responselist.count=>{responseList.Count}");
+            int numElements = 0;
 
-            if (await call.ResponseStream.MoveNext(cancellationTokenSource.Token))
+            while (numElements < maxElements
+                &&
+                await call.ResponseStream.MoveNext(cancellationTokenSource.Token))
             {
-                await Task.Delay(100);
+
                 responseList.Add(call.ResponseStream.Current);
-                StateHasChanged();
+                numElements++;
+
+
             }
+            if (numElements < maxElements)
+            {
+                shouldUpdate = false;
+            }
+            await Task.Delay(100);
+            StateHasChanged();
+
 
         }
         catch (Exception Ex)
         {
-            logger.LogInformation("ffff" + Ex.Message);
+            logger.LogInformation("FFF" + Ex.Message);
         }
 
+
+    }
+
+    protected override bool ShouldRender()
+    {
+
+        return shouldUpdate;
 
     }
 
